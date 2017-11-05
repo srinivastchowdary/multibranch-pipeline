@@ -11,7 +11,7 @@ stage('Static Code Analysis'){
 stage ('Integration Test'){
     sh 'mvn clean verify -Dsurefire.skip=true';
 }
-stage ('Publish){
+stage ('Publish'){
     def server = Artifactory.server 'Default Artifactory Server'
     def uploadSpec = """{
     "files": [
