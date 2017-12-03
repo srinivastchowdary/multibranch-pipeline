@@ -4,12 +4,15 @@ stage('Poll') {
 }
 stage('Build'){
    	  sh 'mvn clean verify -DskipITs=true';
+stage('Unit Test'){
+   	  sh 'mvn clean verify -DskipITs=true';
+}
 }
 stage('Static Code Analysis'){
     sh 'mvn clean verify sonar:sonar';
 }
 stage ('Integration Test'){
-    sh 'mvn clean verify -Dsurefire.skip=true';
+    sh 'mvn clean verify';
 }
 stage ('Publish'){
     def server = Artifactory.server 'Default Artifactory Server'
