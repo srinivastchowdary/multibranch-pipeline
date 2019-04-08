@@ -4,15 +4,15 @@ node('docker') {
 	}
 	stage('Build & Unit test'){
 		sh 'mvn clean verify -DskipITs=true';
-      		junit '**/target/surefire-reports/TEST-*.xml'
+      		junit '*/target/surefire-reports/TEST-.xml'
       		archive 'target/*.jar'
    	}
 	stage('Static Code Analysis'){
-    		sh 'mvn clean verify sonar:sonar -Dsonar.projectName=example-project -Dsonar.projectKey=example-project -Dsonar.projectVersion=$BUILD_NUMBER';
+    		sh 'mvn clean verify sonar:sonar -Dsonar.projectName=esafe-project -Dsonar.projectKey=esafe-project -Dsonar.projectVersion=$BUILD_NUMBER';
 	}
 	stage ('Integration Test'){
     		sh 'mvn clean verify -Dsurefire.skip=true';
-		junit '**/target/failsafe-reports/TEST-*.xml'
+		junit '*/target/failsafe-reports/TEST-.xml'
       		archive 'target/*.jar'
 	}
 	stage ('Publish'){
@@ -21,7 +21,7 @@ node('docker') {
     		"files": [
     		{
      		"pattern": "target/hello-0.0.1.war",
-     		"target": "example-project/${BUILD_NUMBER}/",
+     		"target": "esafe-project/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
@@ -42,11 +42,11 @@ node('docker_pt') {
 	stage ('Performance Testing'){
     		sh '''cd /opt/jmeter/bin/
     		./jmeter.sh -n -t $WORKSPACE/src/pt/Hello_World_Test_Plan.jmx -l $WORKSPACE/test_report.jtl''';
-		step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
+		step([$class: 'ArtifactArchiver', artifacts: '*/.jtl'])
 	}
 	stage ('Promote build in Artifactory'){
     		withCredentials([usernameColonPassword(credentialsId: 'artifactory-account', variable: 'credentials')]) {
-    			sh 'curl -u${credentials} -X PUT "http://192.168.56.102:8081/artifactory/api/storage/example-project/${BUILD_NUMBER}/hello-0.0.1.war?properties=Performance-Tested=Yes"';
+    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/esafe-project/${BUILD_NUMBER}/hello-0.0.1.war?properties=Performance-Tested=Yes"';
 		}
 	}
 }
