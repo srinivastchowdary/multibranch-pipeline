@@ -56,7 +56,7 @@ def server = Artifactory.server 'Default Artifactory Server'
 def downloadSpec = """{
 "files": [
 {
-"pattern": "esafe-project/$BUILD_NUMBER/*.zip",
+"pattern": "esafe-project/$BUILD_NUMBER/*.war",
 "target": "/home/jenkins/tomcat/webapps/",
 "props": "Performance-Tested=Yes;Integration-Tested=Yes"
 }
