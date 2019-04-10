@@ -62,7 +62,6 @@ def downloadSpec = """{
 }
 ]
 }"""
-sh 'cp /home/jenkins/tomcat/webapps/3/Esafe-0.0.1.war /home/jenkins/tomcat/webapps/';
 server.download(downloadSpec)
 }
 }
