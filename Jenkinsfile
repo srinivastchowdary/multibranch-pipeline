@@ -8,7 +8,7 @@ node('docker') {
       		archive 'target/*.jar'
    	}
 	stage('Static Code Analysis'){
-    		sh 'mvn clean verify sonar:sonar -Dsonar.projectName=esafe-project -Dsonar.projectKey=esafe-project -Dsonar.projectVersion=$BUILD_NUMBER';
+    		sh 'mvn clean verify sonar:sonar -Dsonar.projectName=Esafe-Project -Dsonar.projectKey=Esafe-Project -Dsonar.projectVersion=$BUILD_NUMBER';
 	}
 	stage ('Integration Test'){
     		sh 'mvn clean verify -Dsurefire.skip=true';
@@ -20,15 +20,15 @@ node('docker') {
     		def uploadSpec = """{
     		"files": [
     		{
-     		"pattern": "target/heloo-0.0.1.war",
-     		"target": "esafe-project/${BUILD_NUMBER}/",
+     		"pattern": "target/Esafe-0.0.1.war",
+     		"target": "Esafe-Project/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
 		}"""
 		server.upload(uploadSpec)
 	}
-	stash includes: 'target/hello-0.0.1.war,src/pt/Hello_World_Test_Plan.jmx', name: 'binary'
+	stash includes: 'target/Esafe-0.0.1.war,src/pt/Hello_World_Test_Plan.jmx', name: 'binary'
 }
 node('docker_pt') {
 	stage ('Start Tomcat'){
@@ -37,7 +37,7 @@ node('docker_pt') {
 	}
 	stage ('Deploy '){
     		unstash 'binary'
-    		sh 'cp target/hello-0.0.1.war /home/jenkins/tomcat/webapps/';
+    		sh 'cp target/Esafe-0.0.1.war /home/jenkins/tomcat/webapps/';
 	}
 	stage ('Performance Testing'){
     		sh '''cd /opt/jmeter/bin/
@@ -46,7 +46,7 @@ node('docker_pt') {
 	}
 	stage ('Promote build in Artifactory'){
     		withCredentials([usernameColonPassword(credentialsId: 'artifactory-account', variable: 'credentials')]) {
-    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/esafe-project/${BUILD_NUMBER}/hello-0.0.1.war?properties=Performance-Tested=Yes"';
+    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Esafe-Project/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
 		}
 	}
 }
@@ -56,7 +56,7 @@ def server = Artifactory.server 'Default Artifactory Server'
 def downloadSpec = """{
 "files": [
 {
-"pattern": "esafe-project/$BUILD_NUMBER/*.war",
+"pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
 "target": "/home/jenkins/tomcat/webapps/",
 "props": "Performance-Tested=Yes;Integration-Tested=Yes"
 }
