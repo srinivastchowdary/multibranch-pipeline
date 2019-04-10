@@ -3,7 +3,7 @@
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>employee</groupId>
-  <artifactId>Esafe</artifactId>
+  <artifactId>hello</artifactId>
   <packaging>war</packaging>
   <version>0.0.1</version>
   <name>Hello Maven Webapp</name>
