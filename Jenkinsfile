@@ -20,7 +20,7 @@ node('docker') {
     		def uploadSpec = """{
     		"files": [
     		{
-     		"pattern": "target/hello-0.0.1.war",
+     		"pattern": "target/Esafe-0.0.1.war",
      		"target": "esafe-project/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
@@ -28,7 +28,7 @@ node('docker') {
 		}"""
 		server.upload(uploadSpec)
 	}
-	stash includes: 'target/hello-0.0.1.war,src/pt/Hello_World_Test_Plan.jmx', name: 'binary'
+	stash includes: 'target/Esafe-0.0.1.war,src/pt/Hello_World_Test_Plan.jmx', name: 'binary'
 }
 node('docker_pt') {
 	stage ('Start Tomcat'){
@@ -37,7 +37,7 @@ node('docker_pt') {
 	}
 	stage ('Deploy '){
     		unstash 'binary'
-    		sh 'cp target/hello-0.0.1.war /home/jenkins/tomcat/webapps/';
+    		sh 'cp target/Esafe-0.0.1.war /home/jenkins/tomcat/webapps/';
 	}
 	stage ('Performance Testing'){
     		sh '''cd /opt/jmeter/bin/
