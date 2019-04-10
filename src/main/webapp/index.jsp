@@ -10,14 +10,14 @@
  body {
      background-image: url(http://www.crystalsofts.com/images/demo/slidernew2.jpg);
      background-repeat: no-repeat;
-	 background-position: bottom;	
-	 background-size: 100% 50%;
+     background-position: bottom;	
+     background-size: 100% 50%;
    }
 	
     .jumbotron {
      background-color: #11F7D1;
      color: black; 
-	 padding: 10px;
+     padding: 10px;
 	 
     }
 </style>
