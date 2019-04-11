@@ -58,7 +58,8 @@ def downloadSpec = """{
 {
 "pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
 "target": "/home/jenkins/tomcat/webapps/",
-"props": "Performance-Tested=Yes;Integration-Tested=Yes"
+"props": "Performance-Tested=Yes;Integration-Tested=Yes",
+"flat": "true"
 }
 ]
 }"""
