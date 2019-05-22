@@ -21,7 +21,7 @@ node('docker') {
     		"files": [
     		{
      		"pattern": "target/Esafe-0.0.1.war",
-     		"target": "esafe-project/${BUILD_NUMBER}/",
+     		"target": "Esafe-Project/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
@@ -46,7 +46,7 @@ node('docker_pt') {
 	}
 	stage ('Promote build in Artifactory'){
     		withCredentials([usernameColonPassword(credentialsId: 'artifactory-account', variable: 'credentials')]) {
-    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/esafe-project/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
+    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Esafe-Project/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
 		}
 	}
 }
@@ -56,7 +56,7 @@ def server = Artifactory.server 'Default Artifactory Server'
 def downloadSpec = """{
 "files": [
 {
-"pattern": "esafe-project/$BUILD_NUMBER/*.war",
+"pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
 "target": "/home/jenkins/tomcat/webapps/",
 "props": "Performance-Tested=Yes;Integration-Tested=Yes",
 "flat": "true"
@@ -65,4 +65,13 @@ def downloadSpec = """{
 }"""
 server.download(downloadSpec)
 }
+stage('Email Notification'){
+     mail bcc: '', body: 'Welcome to jenkins notification alert', 
+        cc: 'mohamed.sadiqh@gmail.com', from: '', replyTo: '', subject: 'Jenkins job', to: 'vasucena145@gmail.com'
+    }
+ stage('Attachment Log'){
+   emailext attachLog: true, body: '${currentBuild.result}: ${BUILD_URL}', 
+      compressLog: true, replyTo: 'mohamed.sadiqh@gmail.com', 
+      subject: 'Build Notification: ${JOB_NAME}-Build# ${BUILD_NUMBER} ${currentBuild.result}', to: 'vasucena145@gmail.com'
+   }
 }
