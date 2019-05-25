@@ -75,10 +75,9 @@ stage('Email Notification'){
       subject: 'Build Notification: ${JOB_NAME}-Build# ${BUILD_NUMBER} ${currentBuild.result}', to: 'vasucena145@gmail.com'
    }
  stage('Slack Notification'){
-    slackSend baseUrl: 'https://hooks.slack.com/services/', 
-    channel: 'jenkins-pipeline', color: 'good', 
-     message: 'welcome to Jenkins slack', 
-     teamDomain: 'esafe build notification', 
-     tokenCredentialId: 'slack-notification'
+    slackSend baseUrl: 'https://esafeworkspace.slack.com/services/hooks/jenkins-ci/', 
+	    channel: 'pipeline', color: 'good', failOnError: true, message: 'Welcome to Jenkins Slack', 
+	    teamDomain: 'esafe build notification', token: 'HLIX5MlkTiW9WTeeYMSR14eL', 
+	    tokenCredentialId: 'jenkins-slack-notification'
     }
 }
