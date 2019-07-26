@@ -66,10 +66,6 @@ node {
                server.download(downloadSpec)
                }
 	stage('Run Playbook'){
-		steps {
-		   dir('opt/ansible'){
-		      sh 'ansible-playbook copywarfile.yml'
-		   }
-		}
+		      sh 'ansible-playbook /opt/ansible/copywarfile.yml'
 	}
 }
