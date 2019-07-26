@@ -64,5 +64,9 @@ node {
                ]
                }"""
                server.download(downloadSpec)
-       }
+               }
+	stage('Run Playbook'){
+	      
+		sh 'ansible-playbook -i /opt/ansible/copywarfile.yml'
+	}
 }
