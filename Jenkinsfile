@@ -50,7 +50,10 @@ node('docker_pt') {
 		}
 	}
   }
-node ('Deploy to ansiblesaerver'){
+pipeline {
+    agent any
+	stages { 
+	   stage('Deploy to ansiblesaerver'){
              def server = Artifactory.server 'Default Artifactory Server'
              def downloadSpec = """{
              "files": [
@@ -64,3 +67,6 @@ node ('Deploy to ansiblesaerver'){
                }"""
                server.download(downloadSpec)
        }
+
+    }
+}
