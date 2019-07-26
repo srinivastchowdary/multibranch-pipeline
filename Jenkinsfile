@@ -49,20 +49,18 @@ node('docker_pt') {
     			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Esafe-Project/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
 		}
 	}
-}
-node ('Ansible') {
-stage ('Deploy to ansiblesaerver'){
-def server = Artifactory.server 'Default Artifactory Server'
-def downloadSpec = """{
-"files": [
-{
-"pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
-"target": "/opt/ansible/",
-"props": "Performance-Tested=Yes;Integration-Tested=Yes",
-"flat": "true"
-}
-]
-}"""
-server.download(downloadSpec)
-}
+     stage ('Deploy to ansiblesaerver'){
+             def server = Artifactory.server 'Default Artifactory Server'
+             def downloadSpec = """{
+             "files": [
+              {
+              "pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
+              "target": "/opt/ansible/",
+              "props": "Performance-Tested=Yes;Integration-Tested=Yes",
+              "flat": "true"
+               }
+               ]
+               }"""
+               server.download(downloadSpec)
+       }
 }
