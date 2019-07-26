@@ -67,6 +67,6 @@ node {
                }
 	stage('Run Playbook'){
 	      
-		sh 'ansible-playbook -i /opt/ansible/copywarfile.yml'
+		sh 'ansible-playbook /opt/ansible/copywarfile.yml'
 	}
 }
