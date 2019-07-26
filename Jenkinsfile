@@ -50,8 +50,8 @@ node('docker_pt') {
 		}
 	}
 }
-node ('production') {
-stage ('Deploy to ansibleaerver'){
+node ('Ansible') {
+stage ('Deploy to ansiblesaerver'){
 def server = Artifactory.server 'Default Artifactory Server'
 def downloadSpec = """{
 "files": [
