@@ -2,6 +2,14 @@ node('docker') {
 	stage('Poll') {
 		checkout scm
 	}
+	stage('My Conditional Stage') {
+            when {
+                 branch 'develop'
+                }
+           steps {
+               echo 'Do that only on develop branch'
+              }
+         }
 	stage('Build & Unit test'){
 		sh 'mvn clean verify -DskipITs=true';
       		junit '**/target/surefire-reports/TEST-*.xml'
