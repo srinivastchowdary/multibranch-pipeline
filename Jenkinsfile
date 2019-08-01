@@ -21,7 +21,7 @@ node('docker') {
     		"files": [
     		{
      		"pattern": "target/Esafe-0.0.1.war",
-     		"target": " Multibranch-pipeline/${BUILD_NUMBER}/",
+     		"target": "Esafe-Project/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
@@ -30,5 +30,3 @@ node('docker') {
 	}
 	stash includes: 'target/Esafe-0.0.1.war,src/pt/Hello_World_Test_Plan.jmx', name: 'binary'
 }
-
- 
