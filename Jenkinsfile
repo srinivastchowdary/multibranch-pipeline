@@ -21,7 +21,7 @@ node('docker') {
     		"files": [
     		{
      		"pattern": "target/Esafe-0.0.1.war",
-     		"target": "Esafe-Project/${BUILD_NUMBER}/",
+     		"target": " Multibranch-pipeline/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
@@ -46,7 +46,7 @@ node('docker_pt') {
  //	}
 	stage ('Promote build in Artifactory'){
     		withCredentials([usernameColonPassword(credentialsId: 'artifactory-account', variable: 'credentials')]) {
-    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Esafe-Project/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
+    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Multibranch-pipeline/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
 		}
 	}
   }
@@ -56,7 +56,7 @@ node {
              def downloadSpec = """{
              "files": [
               {
-              "pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
+              "pattern": " Multibranch-pipeline/$BUILD_NUMBER/*.war",
               "target": "/opt/ansible/",
               "props": "Performance-Tested=Yes;Integration-Tested=Yes",
               "flat": "true"
