@@ -12,7 +12,7 @@ node('docker') {
 //	}
 //	stage ('Integration Test'){
 //    		sh 'mvn clean verify -Dsurefire.skip=true';
-//		junit '**/target/failsafe-reports/TEST-*.xml' 
+//		junit '**/target/failsafe-reports/TEST-*.xml'
 //      		archive 'target/*.jar'
 //	}
 	stage ('Publish'){
@@ -21,7 +21,7 @@ node('docker') {
     		"files": [
     		{
      		"pattern": "target/Esafe-0.0.1.war",
-     		"target": " Multibranch-pipeline/${BUILD_NUMBER}/",
+     		"target": "Esafe-Project/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
@@ -40,13 +40,13 @@ node('docker_pt') {
     		sh 'cp target/Esafe-0.0.1.war /home/jenkins/tomcat/webapps/';
 	}
 //	stage ('Performance Testing'){
-  //  		sh '''cd /opt/jmeter/bin/
-  //		./jmeter.sh -n -t $WORKSPACE/src/pt/Hello_World_Test_Plan.jmx -l $WORKSPACE/test_report.jtl''';
- //		step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
- //	}
+//  		sh '''cd /opt/jmeter/bin/
+//  		./jmeter.sh -n -t $WORKSPACE/src/pt/Hello_World_Test_Plan.jmx -l $WORKSPACE/test_report.jtl''';
+//		step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
+//	}
 	stage ('Promote build in Artifactory'){
     		withCredentials([usernameColonPassword(credentialsId: 'artifactory-account', variable: 'credentials')]) {
-    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Multibranch-pipeline/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
+    			sh 'curl -u${credentials} -X PUT "http://192.168.0.203:8081/artifactory/api/storage/Esafe-Project/${BUILD_NUMBER}/Esafe-0.0.1.war?properties=Performance-Tested=Yes"';
 		}
 	}
   }
@@ -56,7 +56,7 @@ node {
              def downloadSpec = """{
              "files": [
               {
-              "pattern": " Multibranch-pipeline/$BUILD_NUMBER/*.war",
+              "pattern": "Esafe-Project/$BUILD_NUMBER/*.war",
               "target": "/opt/ansible/",
               "props": "Performance-Tested=Yes;Integration-Tested=Yes",
               "flat": "true"
