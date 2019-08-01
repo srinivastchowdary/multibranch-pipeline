@@ -21,7 +21,7 @@ node('docker') {
     		"files": [
     		{
      		"pattern": "target/Esafe-0.0.1.war",
-     		"target": "Esafe-Project/${BUILD_NUMBER}/",
+     		"target": " Multibranch-pipeline/${BUILD_NUMBER}/",
 	 	"props": "Integration-Tested=Yes;Performance-Tested=No"
    		}
            	]
